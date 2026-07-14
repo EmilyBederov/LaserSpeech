@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated paper."
+title: "LaserSpeech"
+type: software
+authors:
+  - family-names: "Bederov"
+    given-names: "Emily"
+repository-code: "https://github.com/EmilyBederov/LaserSpeech"
+license: MIT
