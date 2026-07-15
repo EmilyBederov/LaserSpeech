@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# generated corpus - regenerate with reproduce_laserspeech460.py, never commit
+LaserSpeech-460/
+*.flac
