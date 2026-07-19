@@ -3,16 +3,9 @@
 Physics-based synthesis of **laser Doppler vibrometry (LDV) speech**, plus the real LDV
 recordings used in the paper.
 
-Research-grade LDV hardware costs \$10,000–\$100,000, which has kept laser-based speech
-research starved of training data. LaserSpeech closes that gap by turning ordinary clean
-speech into laser-like recordings at no hardware cost, so that models and ideas can be
-prototyped before committing to real hardware.
-
 > **Note.** LaserSpeech is a *proxy* for real LDV data. It reproduces the dominant
 > degradations of optical vibrometry and matches the real acoustic-quality profile
-> (PESQ/STOI/WER), but it is not a substitute for real measurements. Whether models trained
-> on the synthetic corpus transfer to real LDV is task-dependent and is not a claim of this
-> release.
+> (PESQ/STOI/WER). 
 
 ---
 
@@ -46,10 +39,10 @@ signal), the broadband noise floor, and the preserved low-frequency speech modul
 | `samples/real_laser.wav` | real LDV channel |
 | `samples/real_synth_laser.wav` | synthetic laser from the same clean reference |
 
-The `real_*` clips are an 8 s excerpt of a ~31 s recording, time-aligned across the three.
+The `real_*` clips are an 8 s excerpt of a ~30 s recording, time-aligned across the three.
 
 The **synthetic corpus is not distributed as audio** — it is regenerated locally from the
-public LibriSpeech release (below). The **real LDV recordings** are hosted separately, since
+public LibriSpeech release. The **real LDV recordings** are hosted separately, since
 they cannot be regenerated.
 
 ---
@@ -106,9 +99,7 @@ sf.write("utt_laser.wav", laser, fs)
 
 The parameters depend on the target surface, standoff distance, and hardware, so no single
 configuration transfers everywhere. To calibrate: record a few utterances on your target
-surface alongside a close-talk reference, measure PESQ/STOI/WER, and adjust — `w` controls
-intelligibility and `β` controls overall difficulty. A stiffer surface or longer range
-corresponds to lower `w` and higher `α`, `β`.
+surface alongside a close-talk reference, measure PESQ/STOI/WER, and adjust parameters accordingly.
 
 ---
 
@@ -117,7 +108,7 @@ corresponds to lower `w` and higher `α`, `β`.
 Acquired in an acoustically treated laboratory with a Polytec PDV-100 digital laser
 vibrometer. Lectures from two speakers were reproduced through a loudspeaker at the target
 surface, and the resulting surface vibration was measured across two surfaces
-(WoodenFaceBox at 5 m, LargeKappa at 3 m). Each recording provides three synchronized
+(Wooden Box at 5 m, Kappa at 3 m). Each recording provides three synchronized
 16 kHz tracks:
 
 - `channel_clean` — simultaneous close-talk microphone reference
@@ -131,18 +122,6 @@ Literature*), used under CC BY-NC-SA 3.0.
 **Download:** *(Zenodo DOI — to be added)*
 
 ---
-
-## The pipeline
-
-Five degradation mechanisms of optical vibrometry, applied in order:
-
-1. **Bandwidth limiting** — Butterworth LPF at `f_lpf`; surface compliance attenuates highs.
-2. **Frequency-dependent sensor noise** — purple/violet noise (PSD ∝ f²), from optical demodulation.
-3. **Broadband measurement noise** — white Gaussian (shot, thermal, speckle).
-4. **Nyquist anti-aliasing** — Butterworth LPF at `f_nyq`.
-5. **Multipath frequency smearing** — Gaussian blur of the STFT magnitude (phase preserved).
-
-Followed by RMS normalisation to the measured level of the real recordings.
 
 ![clean LibriSpeech vs synthetic laser](figures/librispeech_clean_vs_synth.png)
 
